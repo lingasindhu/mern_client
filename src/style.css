@@ -1,0 +1,18 @@
+
+.header{
+    background-color: rgb(72, 192, 222);
+    padding:0;
+    height:50px;
+}
+.header h3{
+    font-size: 30px;
+}
+.header ul{
+    font-size: 10px;
+    list-style: none;
+}
+.header li{
+    margin-left:20px;
+    display: inline-block;
+    padding-top:0;
+}

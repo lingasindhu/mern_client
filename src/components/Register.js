@@ -1,42 +1,67 @@
-import React, { useState, useContext } from 'react';
-import { MyContext } from '../Mycontext'; // Corrected import
+import axios from "axios";
+import { useState } from "react"
 
-export default function Register() {
-    const [formData, submitFormData] = useState({
-        name: "",
-        email: "",
-        pass: ""
-    });
-
-    const { table, setTable } = useContext(MyContext); // Corrected useContext
-
-    function handleChange(e) {
-        const { name, value } = e.target;
-        submitFormData({ ...formData, [name]: value });
+export default function Register(){
+    const [formdata,setForm]= useState({
+        name:"",
+        email:"",
+        password:"",
+    })
+    const handleChange =(e)=>{
+        const {name,value}=e.target;
+        setForm((prev)=>({...prev,[name]:value}));
     }
-
-    function handleSubmit() {
-        setTable([...table, formData]);
-        submitFormData({
-            name: "",
-            email: "",
-            pass: ""
-        });
-    }
-
-    return (
-        <div>
-            <div className="flex-inline max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-10">
-            <h1 className="text-xl text-center font-bold font-mono" >Register</h1>
-            <input name="name" type="text" value={formData.name} onChange={handleChange} placeholder="Enter User Name" className="m-2 " />
-            <br />
-            <input name="email" type="text" value={formData.email} onChange={handleChange} placeholder="Enter User Email"  className="m-2"/>
-            <br />
-            <input name="pass" type="password" value={formData.pass} onChange={handleChange} placeholder="Enter User Password" className="m-2" />
-            <br />
-            <button className="bg-blue-500 text-center hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
- onClick={handleSubmit}>Submit</button>
-            </div>
-        </div>
-    );
+    const [res,setRes]= useState("");
+    const HandleSubmit = async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        try {
+             const response = await axios.post("http://localhost:3001/users/register", formdata);
+            console.log("Form data submitted successfully!",response.message);
+            setForm({name: "",email: "",password: ""});
+            setRes("User Registered Successfully !");
+        } catch (error) {
+            console.error("Error submitting form:", error);
+} };
+    return(
+        <form className="flex w-200 flex-col items-center p-4 bg-black-100 border border-blue-300 rounded-lg p-3 m-4">
+        <h1 className="font-bold text-lg mb-4">Register Here!</h1>
+        <h5 className="text-red-600">{res}</h5>
+        <div className="form-group flex flex-col w-200 mb-4">
+          <label htmlFor="username" className="text-sm mb-2">Name</label>
+          <input
+            className="border border-gray-300 p-2 rounded"
+            id="name"
+            name="name"
+            type="text"
+            value={formdata.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+          />
+            <label htmlFor="email" className="text-sm mb-2">Email</label>
+          <input
+            className="border border-gray-300 p-2 rounded"
+            id="email"
+            type="email"
+            name="email"
+            value={formdata.email}
+            onChange={handleChange}
+            placeholder="Enter your Email"
+          />
+            <label htmlFor="password" className="text-sm mb-2">Password</label>
+          <input
+            className="border border-gray-300 p-2 rounded"
+            id="password"
+            type="password"
+            name="password"
+            value={formdata.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+          />
+          <button type="submit" 
+          onClick={HandleSubmit}
+          className="bg-blue-500 p-1 m-3 w-30 text-white border-gray-300 p-2 rounded">
+            Submit</button>
+        </div>
+      </form>
+    )
 }

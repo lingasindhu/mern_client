@@ -1,32 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Header from './components/Header';
-import Login from './components/Login';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './index.css';
+import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import Navbar from './components/navbar';
 import Register from './components/Register';
-import Feedback from './components/Feedback';
-import Display from './components/Display';
-import TodoList from './components/Todo';
-import Feed from './components/Feed';
-import { MyProvider } from './Mycontext'; // Ensure the correct path
-
-const root = document.getElementById('root');
-const VirtualRoot = ReactDOM.createRoot(root);
-
-VirtualRoot.render(
-  <MyProvider>
+import Login from './components/Login';
+import Home from './components/home';
+import Todo from './components/Todo';
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <div>
     <Router>
-      <div>
-        <Header/>
-      </div>
+      <Navbar/>
+      <h1>Web App</h1>
+      <Home/>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/feedback" element={<Feedback />} />
-        <Route path="/display" element={<Display />} />
-        <Route path="/todolist" element={<TodoList />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<h1>Login</h1>}/>
+        <Route path="/logout" element={<h1>Logout</h1>}/>
+        <Route path="/todo" element={<Todo/>}/>
       </Routes>
     </Router>
-  </MyProvider>
+  </div>
 );
